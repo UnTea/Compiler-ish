@@ -45,10 +45,10 @@ class ASTVisualizer:
             return
 
         visited.add(node_id)
-        print(f'"{node_id}" [label="{self.labels[node_id]}"]')
+        print(f'\t"{node_id}" [label = "{self.labels[node_id]}"]')
 
         for child_id in self.graph[node_id]:
-            print(f'"{node_id}" -> "{child_id}"')
+            print(f'\t"{node_id}" -> "{child_id}"')
             self.print_nodes_dot(child_id, visited)
 
     def load_from_file(self, file_path):
