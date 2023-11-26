@@ -5,9 +5,6 @@ SOURCE_FILE = $(TESTS_DIR)/test_file.py
 OUTPUT_DOT = $(OUTPUT_DIR)/output.dot
 OUTPUT_PNG = $(OUTPUT_DIR)/output.png
 
-.PHONY: all
-all: visualize
-
 .PHONY: visualize
 visualize: $(OUTPUT_PNG)
 
@@ -20,3 +17,6 @@ $(OUTPUT_DOT): $(SOURCE_FILE)
 .PHONY: clean
 clean:
 	rm -f $(OUTPUT_DOT) $(OUTPUT_PNG)
+
+.PHONY:  all
+all: clean visualize
