@@ -1,4 +1,15 @@
 import ast
+from typing import Optional
+
+
+def get_node_info(node: ast.AST) -> Optional[str]:
+    if isinstance(node, ast.Name):
+        return f"Name: {node.id}"
+    elif isinstance(node, ast.FunctionDef):
+        return f"Function: {node.name}"
+    elif isinstance(node, ast.Constant):
+        return f"Constant: {repr(node.value)}"
+    return None
 
 
 def build_graph_ir(tree, graph_ir):
@@ -12,7 +23,12 @@ def build_graph_ir(tree, graph_ir):
         if isinstance(current_node, ast.AST):
             object_id = id(current_node)
             node_id = len(graph_ir)
-            graph_ir[node_id] = {'label': type(current_node).__name__, 'object_id': object_id, 'children': []}
+            label = type(current_node).__name__
+            additional_info = get_node_info(current_node)
+            if additional_info:
+                label += f"\n{additional_info}"
+
+            graph_ir[node_id] = {'label': label, 'object_id': object_id, 'children': []}
 
             if parent_id is not None:
                 graph_ir[parent_id]['children'].append(object_id)
