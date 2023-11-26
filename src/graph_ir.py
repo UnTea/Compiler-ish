@@ -2,6 +2,60 @@ import ast
 from typing import Optional
 
 
+def analyze_expression_dependencies(graph, expr_node_id):
+    """
+    Анализирует зависимости в выражении и возвращает список списков,
+    где каждый список представляет собой группу узлов, которые можно близко расположить.
+    """
+    dependencies = []
+
+    def traverse_dependencies(node_id, current_dependency):
+        if node_id not in graph:
+            return
+
+        current_dependency.append(node_id)
+        children = graph[node_id].get('children', [])
+
+        for child_id in children:
+            traverse_dependencies(child_id, current_dependency)
+
+    traverse_dependencies(expr_node_id, [])
+
+    return dependencies
+
+
+def optimize_graph_positions(graph, labels):
+    for node_id, data in graph.items():
+        if 'label' in data and data['label'] == 'foo':
+            if 'children' in data:
+                for child_id in data['children']:
+                    child_data = graph[child_id]
+                    if 'label' in child_data and child_data['label'] == 'Expr':
+                        dependencies = analyze_expression_dependencies(graph, child_id)
+
+                        # Базовая оптимизация: вычисление центра масс по горизонтали
+                        total_x = 0
+                        total_nodes = 0
+
+                        for group in dependencies:
+                            for node in group:
+                                total_x += node % 10  # Просто для примера, можно использовать реальные координаты
+                                total_nodes += 1
+
+                        if total_nodes > 0:
+                            center_of_mass = total_x / total_nodes
+
+                            # Перемещение узлов к центру масс
+                            for group in dependencies:
+                                for node in group:
+                                    # Просто для примера, здесь нужно обновить координаты узла в графе
+                                    graph[node]['x'] = center_of_mass
+                                    graph[node]['y'] = 0
+
+                            print("Optimizing positions for expression:", child_data['label'])
+                            print("New positions:", graph)
+
+
 def get_node_info(node: ast.AST) -> Optional[str]:
     if isinstance(node, ast.Name):
         return f"Name: {node.id}"
