@@ -1,6 +1,30 @@
 import ast
 
 
+def build_graph_ir(tree, graph_ir):
+    stack = [(None, tree)]
+    parent_id = None
+    object_counter = 0
+
+    while stack:
+        parent_id, current_node = stack.pop()
+
+        if isinstance(current_node, ast.AST):
+            object_id = id(current_node)
+            node_id = len(graph_ir)
+            graph_ir[node_id] = {'label': type(current_node).__name__, 'object_id': object_id, 'children': []}
+
+            if parent_id is not None:
+                graph_ir[parent_id]['children'].append(object_id)
+
+            for field in reversed(current_node._fields):
+                stack.append((node_id, getattr(current_node, field)))
+
+        elif isinstance(current_node, list):
+            for element in reversed(current_node):
+                stack.append((parent_id, element))
+
+
 def build_graph(tree, graph, labels):
     stack = [(None, tree)]
     parent_id = None

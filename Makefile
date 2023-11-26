@@ -1,3 +1,5 @@
+.ONESHELL:
+
 SOURCE_DIR = src
 TESTS_DIR = tests
 OUTPUT_DIR = output
