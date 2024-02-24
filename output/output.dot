@@ -1,6 +1,6 @@
 digraph G {
-node [fontname= "JetBrains Mono" fontsize=20
-style=filled fillcolor="#E5FDCD" penwidth=2]edge [fontname="JetBrains Mono" fontsize=12]
+node [fontname= "Fira Code" fontsize=16
+style=filled fillcolor="#E5FDCD" penwidth=2]edge [fontname="Fira Code" fontsize=12]
 0 [label="Module" shape=box]
 1 [label="list" shape=box]
 2 [label="FunctionDef\nname: 'foo'\ndecorator_list: []\nreturns: None\ntype_comment: None\ntype_params: []" shape=box]

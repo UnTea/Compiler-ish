@@ -1,8 +1,8 @@
 import ast
 
-DOT_STYLE = ('node [fontname= "JetBrains Mono" fontsize=20\n'
+DOT_STYLE = ('node [fontname= "Fira Code" fontsize=16\n'
              'style=filled fillcolor="#E5FDCD" penwidth=2]'
-             'edge [fontname="JetBrains Mono" fontsize=12]')
+             'edge [fontname="Fira Code" fontsize=12]')
 
 
 def to_dot(graph, labels, edge_labels):

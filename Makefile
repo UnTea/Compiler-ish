@@ -13,7 +13,7 @@ $(OUTPUT_PNG): $(OUTPUT_DOT)
 	dot -Tpng $(OUTPUT_DOT) -o $(OUTPUT_PNG)
 
 $(OUTPUT_DOT): $(SOURCE_FILE)
-	python $(SOURCE_DIR)/main.py $(SOURCE_FILE) > $(OUTPUT_DOT)
+	python main.py $(SOURCE_FILE) > $(OUTPUT_DOT)
 
 .PHONY: clean
 clean:
