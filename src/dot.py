@@ -1,19 +1,19 @@
 import ast
 
-DOT_STYLE = ('node [fontname= "Fira Code" fontsize=16\n'
-             'style=filled fillcolor="#E5FDCD" penwidth=2]'
-             'edge [fontname="Fira Code" fontsize=12]')
+DOT_STYLE = ('\tnode [fontname = "Fira Code" fontsize = 16\n'
+             '\tstyle = filled fillcolor = "#E5FDCD" penwidth = 2]\n'
+             '\tedge [fontname = "Fira Code" fontsize = 12]')
 
 
 def to_dot(graph, labels, edge_labels):
     dot = [f'digraph G {{\n{DOT_STYLE}']
 
     for n in graph:
-        dot.append(f'{n} [label="{labels[n]}" shape=box]')
+        dot.append(f'\t{n} [label="{labels[n]}" shape=box]')
 
     for a in graph:
         for b in graph[a]:
-            dot.append(f'{a} -> {b} [label="{edge_labels[(a, b)]}"]')
+            dot.append(f'\t{a} -> {b} [label="{edge_labels[(a, b)]}"]')
 
     dot.append('}')
 
@@ -58,3 +58,18 @@ def ast_to_dot(tree):
     walk_fields(0, tree)
 
     return to_dot(graph, labels, edge_labels)
+
+
+def node_to_dot(graph):
+    dot = [f'digraph G {{\n{DOT_STYLE}']
+
+    for node in graph:
+        dot.append(f'\t{node['id']} [label = "{node['id']}" shape = box]')
+
+    for a in graph:
+        for b in a['output_edges']:
+            dot.append(f'\t{a['id']} -> {b['id']}')
+
+    dot.append('}')
+
+    return '\n'.join(dot)
