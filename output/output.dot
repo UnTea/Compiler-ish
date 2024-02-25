@@ -1,13 +1,30 @@
 digraph G {
-    node [fontname = "Fira Code" fontsize = 16
-    style = filled fillcolor = "#E5FDCD" penwidth = 2]
-    edge [fontname = "Fira Code" fontsize = 12]
-    Start [label = "Start" shape = box]
-    2 [label = "2" shape = box]
-    3 [label = "3" shape = box]
-    Stop [label = "Stop" shape = box]
-    Start -> 2
-    2 -> 3
-    2 -> Stop
-    3 -> Stop
+	node [fontname = "Fira Code" fontsize = 16
+	style = filled fillcolor = "#E5FDCD" penwidth = 2]
+	edge [fontname = "Fira Code" fontsize = 12]
+	0 [label="Module" shape=box]
+	1 [label="list" shape=box]
+	2 [label="FunctionDef\nname: 'foo'\ndecorator_list: []\nreturns: None\ntype_comment: None\ntype_params: []" shape=box]
+	3 [label="arguments\nposonlyargs: []\nvararg: None\nkwonlyargs: []\nkw_defaults: []\nkwarg: None\ndefaults: []" shape=box]
+	4 [label="list" shape=box]
+	5 [label="arg\narg: 'x'\nannotation: None\ntype_comment: None" shape=box]
+	6 [label="list" shape=box]
+	7 [label="Return\n" shape=box]
+	8 [label="BinOp\n" shape=box]
+	9 [label="Name\nid: 'x'" shape=box]
+	10 [label="Load\n" shape=box]
+	11 [label="Mult\n" shape=box]
+	12 [label="Constant\nvalue: 2\nkind: None" shape=box]
+	0 -> 1 [label="body"]
+	1 -> 2 [label="0"]
+	2 -> 3 [label="args"]
+	2 -> 6 [label="body"]
+	3 -> 4 [label="args"]
+	4 -> 5 [label="0"]
+	6 -> 7 [label="0"]
+	7 -> 8 [label="value"]
+	8 -> 9 [label="left"]
+	8 -> 11 [label="op"]
+	8 -> 12 [label="right"]
+	9 -> 10 [label="ctx"]
 }
