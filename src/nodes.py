@@ -9,24 +9,25 @@ unique_id = 1
 graph = []
 
 
-def create_basic_block(block_id=None):
-    global unique_id
-    block_id = block_id if block_id is not None else unique_id
-    unique_id += 1
+def create_basic_block(basic_block_id=None):
+    if basic_block_id is None:
+        global unique_id
+        basic_block_id = unique_id
+        unique_id += 1
 
-    block = {
-        "id": block_id,
+    basic_block = {
+        "id": basic_block_id,
         "instructions": [],
         "input_edges": [],
         "output_edges": []
     }
 
-    graph.append(block)
+    graph.append(basic_block)
 
-    return block
+    return basic_block
 
 
-def add_instruction(block, opcode, destination, source0=None, source1=None):
+def add_instruction(basic_block, opcode, destination, source0=None, source1=None):
     instruction = {
         "opcode": opcode,
         "destination": destination,
@@ -35,7 +36,7 @@ def add_instruction(block, opcode, destination, source0=None, source1=None):
         "next_instruction": None
     }
 
-    block["instructions"].append(instruction)
+    basic_block["instructions"].append(instruction)
 
 
 def add_input_edge(block, input_edge):
