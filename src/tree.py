@@ -1,8 +1,11 @@
 import ast
-from _ast import Module
+
+from ast import dump
+
+from src.dot import to_dot
 
 
-def get_file_content(file_path: str) -> str | None:
+def get_file_content(file_path):
     try:
         with open(file_path, 'r') as file:
             content = file.read()
@@ -17,7 +20,7 @@ def get_file_content(file_path: str) -> str | None:
         return None
 
 
-def get_ast_tree(file_content) -> Module | None:
+def get_ast_tree(file_content):
     try:
         return ast.parse(file_content)
 
@@ -28,3 +31,12 @@ def get_ast_tree(file_content) -> Module | None:
     except Exception as error:
         print(f"An error occurred while parsing AST: {error}")
         return None
+
+
+def ast_dump(tree, indent=4, annotate_fields=False, include_attributes=False):
+    return dump(
+        tree,
+        indent=indent,
+        annotate_fields=annotate_fields,
+        include_attributes=include_attributes,
+    )
