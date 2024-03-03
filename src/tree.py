@@ -2,8 +2,6 @@ import ast
 
 from ast import dump
 
-from src.dot import to_dot
-
 
 def get_file_content(file_path):
     try:

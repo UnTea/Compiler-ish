@@ -81,6 +81,7 @@ def ast_to_node(tree):
     return to_dot(graph, labels, edge_labels)
 
 
+# TODO: save for later
 def get_error_details(source, node, filename=''):
     return (
         filename,
