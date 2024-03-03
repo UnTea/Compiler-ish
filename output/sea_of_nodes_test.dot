@@ -3,8 +3,8 @@ digraph G {
     style = filled fillcolor = "#E5FDCD" penwidth = 2]
     edge [fontname = "Fira Code" fontsize = 12]
     Start [label = "Start" shape = box]
-    2 [label = "2" shape = box]
-    3 [label = "3" shape = box]
+    2 [label = "Return" shape = box]
+    3 [label = "Constant\n value: 1" shape = box]
     Stop [label = "Stop" shape = box]
     Start -> 2
     2 -> 3

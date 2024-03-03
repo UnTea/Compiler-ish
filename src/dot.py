@@ -60,7 +60,7 @@ def ast_to_dot(tree):
     return to_dot(graph, labels, edge_labels)
 
 
-def node_to_dot(graph):
+def nodes_to_dot(graph):
     dot = [f'digraph G {{\n{DOT_STYLE}']
 
     for node in graph:

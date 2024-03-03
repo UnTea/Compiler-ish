@@ -1,13 +1,6 @@
 import ast
-from unittest import case
 
 from src.dot import to_dot
-
-
-class Visitor(ast.NodeVisitor):
-    def visit(self, node):
-        print(node)
-        self.generic_visit(node)
 
 
 def ast_to_node(tree):
@@ -16,6 +9,8 @@ def ast_to_node(tree):
     edge_labels = {}
 
     def walk_fields(node_id, tree):
+        args = []
+
         for field in tree._fields:
             match getattr(tree, field):
                 case list() as child if child != []:
@@ -36,8 +31,10 @@ def ast_to_node(tree):
                 case ast.AST() as child if child != []:
                     walk(node_id, child, field)
 
-                case _:
-                    pass
+                case _ as value:
+                    args.append(f'{field}: {repr(value)}')
+
+        return '\\n'.join(arg for arg in args)
 
     def walk(parent_id, tree, field):
         node_id = len(graph)
@@ -65,17 +62,19 @@ def ast_to_node(tree):
                 labels[node_id] = f'{type(tree).__name__}'
 
             case ast.Name() as child if child != []:
-                labels[node_id] = f'{type(tree).__name__}'
+                args = walk_fields(node_id, tree)
+                labels[node_id] = f'{type(tree).__name__}\\n{args}'
 
             case ast.Mult() as child if child != []:
                 labels[node_id] = f'{type(tree).__name__}'
 
             case ast.Constant() as child if child != []:
-                labels[node_id] = f'{type(tree).__name__}'
+                args = walk_fields(node_id, tree)
+                labels[node_id] = f'{type(tree).__name__}\\n{args}'
 
             case ast.AST():
-                walk_fields(node_id, tree)
-                labels[node_id] = f'{type(tree).__name__}'
+                args = walk_fields(node_id, tree)
+                labels[node_id] = f'{type(tree).__name__}\\n{args}'
 
     walk_fields(0, tree)
 
