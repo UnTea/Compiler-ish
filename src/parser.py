@@ -1,6 +1,5 @@
 import ast
 
-from src.dot import nodes_to_dot
 from src.node.constant_node import create_constant_node
 from src.node.nodes import NODES
 from src.node.return_node import create_return_node
