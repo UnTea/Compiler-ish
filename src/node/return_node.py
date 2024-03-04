@@ -1,17 +1,23 @@
-from node import create_node, get_input
+from src.node.nodes import create_node
 
 
-def create_return_node(ctrl, data):
-    return create_node([ctrl, data])
+def create_return_node(control=None, data=None):
+    if control is None:
+        control = []
+
+    if data is None:
+        data = None
+
+    return create_node(inputs=[control, data])
 
 
-def get_ctrl(node):
-    return get_input(node, 0)
+def get_control(node):
+    return node['_inputs'][0]
 
 
-def get_expr(node):
-    return get_input(node, 1)
+def get_expression(node):
+    return node['_inputs'][1]
 
 
-def is_cfg(node):
-    return False
+def is_cfg():
+    return True

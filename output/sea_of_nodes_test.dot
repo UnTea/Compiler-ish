@@ -1,13 +1,8 @@
 digraph G {
-    node [fontname = "Fira Code" fontsize = 16
-    style = filled fillcolor = "#E5FDCD" penwidth = 2]
-    edge [fontname = "Fira Code" fontsize = 12]
     Start [label = "Start" shape = box]
     2 [label = "Return" shape = box]
-    3 [label = "Constant\n value: 1" shape = box]
-    Stop [label = "Stop" shape = box]
-    Start -> 2
+    3 [label = "Constant\n value: 2" shape = box]
     2 -> 3
-    2 -> Stop
-    3 -> Stop
+    2 -> Start
+    3 -> Start
 }
