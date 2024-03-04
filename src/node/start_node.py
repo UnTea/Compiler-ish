@@ -1,9 +1,14 @@
-from node import create_node
+from src.node.nodes import create_node
 
 
-def create_start_node():
-    return create_node()
+def create_start_node(inputs=None):
+    if inputs is None:
+        inputs = []
+
+    start_node = create_node(inputs=inputs, is_start=True)
+
+    return start_node
 
 
-def is_start_cfg(node):
-    return False
+def is_cfg():
+    return True

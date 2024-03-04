@@ -1,2 +1,2 @@
-def foo(x):
-    return x * 2
+def foo():
+    return 2

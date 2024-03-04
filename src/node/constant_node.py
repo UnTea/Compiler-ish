@@ -1,13 +1,15 @@
-from node import create_node, NODES
+from src.node.nodes import create_node
 
 
-def create_constant_node(value):
-    constant_node = create_node([None])
+def create_constant_node(value, control=None):
+    if control is None:
+        control = []
+
+    constant_node = create_node(inputs=control)
     constant_node["_value"] = value
-    NODES.append(constant_node)
 
     return constant_node
 
 
-def get_constant_value(constant_node):
-    return constant_node.get('_value', None)
+def is_cfg():
+    return False

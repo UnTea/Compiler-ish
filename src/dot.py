@@ -58,18 +58,3 @@ def ast_to_dot(tree):
     walk_fields(0, tree)
 
     return to_dot(graph, labels, edge_labels)
-
-
-def nodes_to_dot(graph):
-    dot = [f'digraph G {{\n{DOT_STYLE}']
-
-    for node in graph:
-        dot.append(f'\t{node['id']} [label = "{node['id']}" shape = box]')
-
-    for a in graph:
-        for b in a['output_edges']:
-            dot.append(f'\t{a['id']} -> {b['id']}')
-
-    dot.append('}')
-
-    return '\n'.join(dot)

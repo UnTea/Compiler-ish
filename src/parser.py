@@ -1,15 +1,20 @@
 import ast
 
-from src.dot import to_dot
+from src.dot import nodes_to_dot
+from src.node.constant_node import create_constant_node
+from src.node.nodes import NODES
+from src.node.return_node import create_return_node
+from src.node.start_node import create_start_node
 
 
 def ast_to_node(tree):
     graph = {0: []}
-    labels = {0: type(tree).__name__}
-    edge_labels = {}
+    labels = {0: 'Start'}
+
+    start = create_start_node()
 
     def walk_fields(node_id, tree):
-        args = []
+        args = {}
 
         for field in tree._fields:
             match getattr(tree, field):
@@ -32,53 +37,58 @@ def ast_to_node(tree):
                     walk(node_id, child, field)
 
                 case _ as value:
-                    args.append(f'{field}: {repr(value)}')
+                    args[field] = value
 
-        return '\\n'.join(arg for arg in args)
+        return args
 
     def walk(parent_id, tree, field):
         node_id = len(graph)
         graph[parent_id].append(node_id)
         graph[node_id] = []
-        edge_labels[(parent_id, node_id)] = field
 
         match tree:
             case list():
-                labels[node_id] = 'list'
-
                 for idx, elem in enumerate(tree):
                     walk(node_id, elem, idx)
 
             case ast.FunctionDef():
                 walk_fields(node_id, tree)
-                labels[node_id] = f'{type(tree).__name__}'
 
             case ast.Return():
                 walk_fields(node_id, tree)
-                labels[node_id] = f'{type(tree).__name__}'
+
+                node = create_return_node(
+                    control=start,
+                    data=NODES[start['_node_id'] + 1],
+                )
+
+                labels[node['_node_id']] = 'Return'
 
             case ast.BinOp():
                 walk_fields(node_id, tree)
-                labels[node_id] = f'{type(tree).__name__}'
 
             case ast.Name() as child if child != []:
-                args = walk_fields(node_id, tree)
-                labels[node_id] = f'{type(tree).__name__}\\n{args}'
+                walk_fields(node_id, tree)
 
             case ast.Mult() as child if child != []:
-                labels[node_id] = f'{type(tree).__name__}'
+                pass
 
             case ast.Constant() as child if child != []:
-                args = walk_fields(node_id, tree)
-                labels[node_id] = f'{type(tree).__name__}\\n{args}'
+                args = walk_fields(node_id, tree).get('value')
+
+                node = create_constant_node(
+                    value=args,
+                    control=start,
+                )
+
+                labels[node['_node_id']] = f"Constant'\n'value:{args}"
 
             case ast.AST():
-                args = walk_fields(node_id, tree)
-                labels[node_id] = f'{type(tree).__name__}\\n{args}'
+                walk_fields(node_id, tree)
 
     walk_fields(0, tree)
 
-    return to_dot(graph, labels, edge_labels)
+    return nodes_to_dot(NODES, labels)
 
 
 # TODO: save for later
