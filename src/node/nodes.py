@@ -23,7 +23,7 @@ def create_node(inputs=None, is_start=False):
 
     for n in _outputs:
         if n is not None:
-            n['_inputs'] = node
+            n['_inputs'].append(node)
 
     NODES.append(node)
 

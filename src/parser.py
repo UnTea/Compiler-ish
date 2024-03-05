@@ -1,5 +1,6 @@
 import ast
 
+from src.dot import nodes_to_dot
 from src.node.constant_node import create_constant_node
 from src.node.nodes import NODES
 from src.node.return_node import create_return_node
@@ -80,7 +81,7 @@ def ast_to_node(tree):
                     control=start,
                 )
 
-                labels[node['_node_id']] = f"Constant'\n'value:{args}"
+                labels[node['_node_id']] = f'Constant\\nvalue:{args}'
 
             case ast.AST():
                 walk_fields(node_id, tree)
